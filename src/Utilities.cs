@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Reflection;
@@ -53,12 +54,12 @@ namespace SVN_Backup_Widget
     public class Arguments
     {
         // Variables
-        private StringDictionary Parameters;
-        private Hashtable IntParameters = new Hashtable();
-        private int _index = 0;
+        private readonly StringDictionary Parameters;
+        private readonly Hashtable IntParameters = new Hashtable();
+        private readonly int _index = 0;
 
         // Constructor
-        public Arguments(string[] Args)
+        public Arguments(IEnumerable<string> Args)
         {
             Parameters = new StringDictionary();
             Regex Spliter = new Regex(@"^-{1,2}|^/|=|:",
@@ -97,6 +98,13 @@ namespace SVN_Backup_Widget
                             }
 
                             Parameter = null;
+                        }
+                        else
+                        {
+                            if (Parts[0].Length > 0)
+                            {
+                                Parameter = Parts[0];
+                            }
                         }
 
                         // else Error: no parameter waiting for a value (skipped)
