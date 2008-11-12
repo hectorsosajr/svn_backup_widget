@@ -37,7 +37,6 @@ namespace SVN_Backup_Widget
         {
             StringBuilder sb = new StringBuilder();
             SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
-            SQLiteCommand cmd;
 
             sb.Append("CREATE TABLE [Details] (");
             sb.Append(Environment.NewLine);
@@ -54,6 +53,8 @@ namespace SVN_Backup_Widget
             sb.Append("[Incremental] BOOLEAN DEFAULT '0' NULL,");
             sb.Append(Environment.NewLine);
             sb.Append("[Revisions] VARCHAR(50)  NULL");
+            sb.Append(Environment.NewLine);
+            sb.Append("[RootDumpFilePath] VARCHAR(255)  NOT NULL,");
             sb.Append(Environment.NewLine);
             sb.Append(");");
             sb.Append(Environment.NewLine);
@@ -74,7 +75,7 @@ namespace SVN_Backup_Widget
             sb.Append(Environment.NewLine);
             sb.Append(");");
 
-            cmd = new SQLiteCommand(sb.ToString());
+            SQLiteCommand cmd = new SQLiteCommand(sb.ToString());
 
             conn.Open();
             cmd.Connection = conn;
@@ -457,7 +458,8 @@ namespace SVN_Backup_Widget
         private string _filePattern;
         private bool _incremental;
         private string _revisions;
-        private int _profileId; 
+        private int _profileId;
+        private string _rootDumpFilePath;
 
         #endregion
 
@@ -533,7 +535,20 @@ namespace SVN_Backup_Widget
             {
                 _profileId = value;
             }
-        } 
+        }
+ 
+        public string RootDumpFilePath
+        {
+            get
+            {
+                return _rootDumpFilePath;
+            }
+            set
+            {
+                _rootDumpFilePath = value;
+            }
+
+        }
 
         #endregion
     }
@@ -548,7 +563,7 @@ namespace SVN_Backup_Widget
 
         private string _name = string.Empty;
         private string _repositoryPath = string.Empty;
-        private int _repoID = 0;
+        private int _repoID;
 
         #endregion
 
