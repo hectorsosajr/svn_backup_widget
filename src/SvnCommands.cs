@@ -1,5 +1,4 @@
 using System.IO;
-using System.Reflection;
 using SVNManagerLib;
 
 namespace SVN_Backup_Widget
@@ -39,14 +38,12 @@ namespace SVN_Backup_Widget
         {
             DumpArgs args = new DumpArgs();
             DAL dal = new DAL();
-            int profileID;
 
-            profileID = dal.GetProfileId(profileName);
+            int profileID = dal.GetProfileId(profileName);
 
             if (profileID > 0)
             {
-                ProfileDetails det;
-                det = dal.LoadProfileDetails(profileID);
+                ProfileDetails det = dal.LoadProfileDetails(profileID);
 
                 string filePattern = Utilities.ParseFilePattern(det.FilePattern, det.Repository);
 
