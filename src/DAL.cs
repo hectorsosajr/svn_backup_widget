@@ -36,7 +36,7 @@ namespace SVN_Backup_Widget
         public void CreateDatabase()
         {
             StringBuilder sb = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
 
             sb.Append("CREATE TABLE [Details] (");
             sb.Append(Environment.NewLine);
@@ -87,7 +87,7 @@ namespace SVN_Backup_Widget
 
         public void LoadProfileNames()
         {
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM Profiles");
             SQLiteDataReader dr;
 
@@ -111,7 +111,7 @@ namespace SVN_Backup_Widget
         {
             ProfileDetails det = null;
             string sql = "SELECT * FROM Details WHERE ProfileID = @ProfileId";
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd = new SQLiteCommand(sql);
             SQLiteParameter param = new SQLiteParameter("ProfileId", profileId);
             cmd.Parameters.Add(param);
@@ -135,6 +135,8 @@ namespace SVN_Backup_Widget
                 }
                 catch (IndexOutOfRangeException)
                 {}
+
+                det.RootDumpFilePath = dr["RootDumpFilePath"].ToString();
             }
 
             dr.Close();
@@ -146,7 +148,7 @@ namespace SVN_Backup_Widget
         public void UpdateProfile(ProfileDetails details)
         {
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("UPDATE Details ");
@@ -154,7 +156,8 @@ namespace SVN_Backup_Widget
             sbSQL.Append("DumpDirectory = @DumpDirectory, ");
             sbSQL.Append("FilePattern = @FilePattern, ");
             sbSQL.Append("Incremental = @Incremental, ");
-            sbSQL.Append("Revisions = @Revisions ");
+            sbSQL.Append("Revisions = @Revisions, ");
+            sbSQL.Append("RootDumpFilePath = @RootDumpFilePath ");
             sbSQL.Append("WHERE ProfileID = @ProfileId");
 
             cmd = new SQLiteCommand(sbSQL.ToString());
@@ -169,6 +172,8 @@ namespace SVN_Backup_Widget
             param = new SQLiteParameter("Revisions", details.Revisions);
             cmd.Parameters.Add(param);
             param = new SQLiteParameter("ProfileId", details.ProfileID);
+            cmd.Parameters.Add(param);
+            param = new SQLiteParameter("RootDumpFilePath", details.RootDumpFilePath);
             cmd.Parameters.Add(param);
 
             conn.Open();
@@ -190,7 +195,7 @@ namespace SVN_Backup_Widget
         public void DeleteProfile(int profileId)
         {
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("DELETE FROM Profiles ");
@@ -213,7 +218,7 @@ namespace SVN_Backup_Widget
         {
             int profileId;
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("SELECT ID FROM Profiles ");
@@ -235,7 +240,7 @@ namespace SVN_Backup_Widget
 
         public List<SubversionRepositoryInfo> LoadRepositories()
         {
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM Repositories");
             SQLiteDataReader dr;
 
@@ -261,7 +266,7 @@ namespace SVN_Backup_Widget
         public void DeleteRepository(int RepositoryId)
         {
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("DELETE FROM Repositories ");
@@ -282,7 +287,7 @@ namespace SVN_Backup_Widget
         {
             int newRepoId;
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("INSERT INTO Repositories (RepoName,RepoPath) ");
@@ -309,7 +314,7 @@ namespace SVN_Backup_Widget
         {
             int profileId;
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("SELECT RepoID FROM Repositories ");
@@ -333,11 +338,15 @@ namespace SVN_Backup_Widget
 
         #region Private Members
 
+        private SQLiteConnection GetDatabaseConnection()
+        {
+            return new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+        }
+
         private int CreateProfile(string profileName)
         {
-            int newProfileId;
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("INSERT INTO Profiles (ProfileName) ");
@@ -351,7 +360,7 @@ namespace SVN_Backup_Widget
             conn.Open();
             cmd.Connection = conn;
             object obj = cmd.ExecuteScalar();
-            newProfileId = Convert.ToInt32(obj);
+            int newProfileId = Convert.ToInt32(obj);
 
             conn.Close();
 
@@ -361,7 +370,7 @@ namespace SVN_Backup_Widget
         private void CreateProfileDetails(ProfileDetails details)
         {
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("INSERT INTO Details ");
@@ -382,6 +391,8 @@ namespace SVN_Backup_Widget
             cmd.Parameters.Add(param);
             param = new SQLiteParameter("ProfileId", details.ProfileID);
             cmd.Parameters.Add(param);
+            param = new SQLiteParameter("RootDumpFilePath", details.RootDumpFilePath);
+            cmd.Parameters.Add(param);
 
             conn.Open();
             cmd.Connection = conn;
@@ -393,7 +404,7 @@ namespace SVN_Backup_Widget
         private void DeleteProfileDetails(int profileId)
         {
             StringBuilder sbSQL = new StringBuilder();
-            SQLiteConnection conn = new SQLiteConnection("Data Source=" + _fileName + ";Version=3;New=False;Compress=True;");
+            SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
             sbSQL.Append("DELETE FROM Details ");
