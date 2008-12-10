@@ -35,7 +35,7 @@ namespace SVN_Backup_Widget
 
         public void CreateDatabase()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
 
             sb.Append("CREATE TABLE [Details] (");
@@ -75,7 +75,7 @@ namespace SVN_Backup_Widget
             sb.Append(Environment.NewLine);
             sb.Append(");");
 
-            SQLiteCommand cmd = new SQLiteCommand(sb.ToString());
+            var cmd = new SQLiteCommand(sb.ToString());
 
             conn.Open();
             cmd.Connection = conn;
@@ -88,7 +88,7 @@ namespace SVN_Backup_Widget
         public void LoadProfileNames()
         {
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM Profiles");
+            var cmd = new SQLiteCommand("SELECT * FROM Profiles");
             SQLiteDataReader dr;
 
             conn.Open();
@@ -97,7 +97,7 @@ namespace SVN_Backup_Widget
 
             while (dr.Read())
             {
-                Profile p = new Profile();
+                var p = new Profile();
                 p.ID = Convert.ToInt32(dr["ID"]);
                 p.Name = dr["ProfileName"].ToString();
                 _profiles.Add(p);
@@ -112,8 +112,8 @@ namespace SVN_Backup_Widget
             ProfileDetails det = null;
             string sql = "SELECT * FROM Details WHERE ProfileID = @ProfileId";
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd = new SQLiteCommand(sql);
-            SQLiteParameter param = new SQLiteParameter("ProfileId", profileId);
+            var cmd = new SQLiteCommand(sql);
+            var param = new SQLiteParameter("ProfileId", profileId);
             cmd.Parameters.Add(param);
             SQLiteDataReader dr;
 
@@ -147,7 +147,7 @@ namespace SVN_Backup_Widget
 
         public void UpdateProfile(ProfileDetails details)
         {
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
@@ -194,7 +194,7 @@ namespace SVN_Backup_Widget
 
         public void DeleteProfile(int profileId)
         {
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
@@ -202,7 +202,7 @@ namespace SVN_Backup_Widget
             sbSQL.Append("WHERE ID = @ProfileId");
 
             cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("ProfileId", profileId);
+            var param = new SQLiteParameter("ProfileId", profileId);
             cmd.Parameters.Add(param);
 
             conn.Open();
@@ -216,8 +216,7 @@ namespace SVN_Backup_Widget
 
         public int GetProfileId(string profileName)
         {
-            int profileId;
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
             SQLiteCommand cmd;
 
@@ -225,13 +224,13 @@ namespace SVN_Backup_Widget
             sbSQL.Append("WHERE ProfileName COLLATE nocase = @Name");
 
             cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("Name", profileName);
+            var param = new SQLiteParameter("Name", profileName);
             cmd.Parameters.Add(param);
 
             conn.Open();
             cmd.Connection = conn;
             object obj = cmd.ExecuteScalar();
-            profileId = Convert.ToInt32(obj);
+            int profileId = Convert.ToInt32(obj);
 
             conn.Close();
 
@@ -241,16 +240,15 @@ namespace SVN_Backup_Widget
         public List<SubversionRepositoryInfo> LoadRepositories()
         {
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM Repositories");
-            SQLiteDataReader dr;
+            var cmd = new SQLiteCommand("SELECT * FROM Repositories");
 
             conn.Open();
             cmd.Connection = conn;
-            dr = cmd.ExecuteReader();
+            SQLiteDataReader dr = cmd.ExecuteReader();
 
             while (dr.Read())
             {
-                SubversionRepositoryInfo r = new SubversionRepositoryInfo();
+                var r = new SubversionRepositoryInfo();
                 r.RepositoryId = Convert.ToInt32(dr["RepoID"]);
                 r.Name = dr["RepoName"].ToString();
                 r.RepositoryPath = dr["RepoPath"].ToString();
@@ -265,15 +263,14 @@ namespace SVN_Backup_Widget
 
         public void DeleteRepository(int RepositoryId)
         {
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("DELETE FROM Repositories ");
             sbSQL.Append("WHERE RepoID = @RepoId");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("RepoId", RepositoryId);
+            var cmd = new SQLiteCommand(sbSQL.ToString());
+            var param = new SQLiteParameter("RepoId", RepositoryId);
             cmd.Parameters.Add(param);
 
             conn.Open();
@@ -285,17 +282,15 @@ namespace SVN_Backup_Widget
 
         public int AddRepository(string RepositoryName, string RepositoryPath)
         {
-            int newRepoId;
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("INSERT INTO Repositories (RepoName,RepoPath) ");
             sbSQL.Append("VALUES (@RepoName,@RepoPath); ");
             sbSQL.Append("SELECT last_insert_rowid() As RepositoryID;");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("RepoName", RepositoryName);
+            var cmd = new SQLiteCommand(sbSQL.ToString());
+            var param = new SQLiteParameter("RepoName", RepositoryName);
             cmd.Parameters.Add(param);
             param = new SQLiteParameter("RepoPath", RepositoryPath);
             cmd.Parameters.Add(param);
@@ -303,7 +298,7 @@ namespace SVN_Backup_Widget
             conn.Open();
             cmd.Connection = conn;
             object obj = cmd.ExecuteScalar();
-            newRepoId = Convert.ToInt32(obj);
+            int newRepoId = Convert.ToInt32(obj);
 
             conn.Close();
 
@@ -313,15 +308,14 @@ namespace SVN_Backup_Widget
         public int GetRepositoryId(string RepositoryName)
         {
             int profileId;
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("SELECT RepoID FROM Repositories ");
             sbSQL.Append("WHERE RepoName COLLATE nocase = @Name");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("Name", RepositoryName);
+            var cmd = new SQLiteCommand(sbSQL.ToString());
+            var param = new SQLiteParameter("Name", RepositoryName);
             cmd.Parameters.Add(param);
 
             conn.Open();
@@ -345,16 +339,15 @@ namespace SVN_Backup_Widget
 
         private int CreateProfile(string profileName)
         {
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("INSERT INTO Profiles (ProfileName) ");
             sbSQL.Append("VALUES (@ProfileName); ");
             sbSQL.Append("SELECT last_insert_rowid() As ProfileID;");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("ProfileName", profileName);
+            var cmd = new SQLiteCommand(sbSQL.ToString());
+            var param = new SQLiteParameter("ProfileName", profileName);
             cmd.Parameters.Add(param);
 
             conn.Open();
@@ -369,17 +362,16 @@ namespace SVN_Backup_Widget
 
         private void CreateProfileDetails(ProfileDetails details)
         {
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("INSERT INTO Details ");
-            sbSQL.Append("(ProfileID,Repository,DumpDirectory,FilePattern,Incremental,Revisions) ");
+            sbSQL.Append("(ProfileID,Repository,DumpDirectory,FilePattern,Incremental,Revisions,RootDumpFilePath) ");
             sbSQL.Append("VALUES ");
-            sbSQL.Append("(@ProfileId,@Repository,@DumpDirectory,@FilePattern,@Incremental,@Revisions)");
+            sbSQL.Append("(@ProfileId,@Repository,@DumpDirectory,@FilePattern,@Incremental,@Revisions,@RootDumpFilePath)");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("Repository", details.Repository);
+            var cmd = new SQLiteCommand(sbSQL.ToString());
+            var param = new SQLiteParameter("Repository", details.Repository);
             cmd.Parameters.Add(param);
             param = new SQLiteParameter("DumpDirectory", details.DumpDirectory);
             cmd.Parameters.Add(param);
@@ -403,15 +395,14 @@ namespace SVN_Backup_Widget
 
         private void DeleteProfileDetails(int profileId)
         {
-            StringBuilder sbSQL = new StringBuilder();
+            var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("DELETE FROM Details ");
             sbSQL.Append("WHERE ProfileID = @ProfileId");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("ProfileId", profileId);
+            var cmd = new SQLiteCommand(sbSQL.ToString());
+            var param = new SQLiteParameter("ProfileId", profileId);
             cmd.Parameters.Add(param);
 
             conn.Open();

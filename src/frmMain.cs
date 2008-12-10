@@ -145,7 +145,7 @@ namespace SVN_Backup_Widget
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            ProfileDetails det = new ProfileDetails();
+            var det = new ProfileDetails();
             string repoName;
             int idx;
 
@@ -153,6 +153,7 @@ namespace SVN_Backup_Widget
             det.FilePattern = txtFilePattern.Text;
             det.Incremental = chkIncremental.Checked;
             det.Revisions = txtRevisions.Text;
+            det.RootDumpFilePath = txtBaseFile.Text;
 
             DAL dal = new DAL();
 
@@ -444,6 +445,20 @@ namespace SVN_Backup_Widget
         private void lnkFeatures_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.systemwidgets.com/Support/FeedbackCenter/tabid/55/fbType/Search/ProductID/6/Status/Open/Default.aspx");
+        }
+
+        private void chkIncremental_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkIncremental.Checked)
+            {
+                txtBaseFile.Enabled = true;
+                btnBrowseBase.Enabled = true;
+            }
+            else
+            {
+                txtBaseFile.Enabled = false;
+                btnBrowseBase.Enabled = false;
+            }
         }
     }
 }

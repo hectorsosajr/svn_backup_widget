@@ -35,6 +35,9 @@ namespace SVN_Backup_Widget
             this.picSvrStatus = new System.Windows.Forms.PictureBox();
             this.lnkServer = new System.Windows.Forms.LinkLabel();
             this.grpProfiles = new System.Windows.Forms.GroupBox();
+            this.btnBrowseBase = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtBaseFile = new System.Windows.Forms.TextBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -57,9 +60,6 @@ namespace SVN_Backup_Widget
             this.ttGeneral = new System.Windows.Forms.ToolTip(this.components);
             this.lnkSupport = new System.Windows.Forms.LinkLabel();
             this.lnkFeatures = new System.Windows.Forms.LinkLabel();
-            this.btnBrowseBase = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtBaseFile = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSvrStatus)).BeginInit();
             this.grpProfiles.SuspendLayout();
@@ -138,6 +138,37 @@ namespace SVN_Backup_Widget
             this.grpProfiles.TabStop = false;
             this.grpProfiles.Text = "Profiles";
             // 
+            // btnBrowseBase
+            // 
+            this.btnBrowseBase.Enabled = false;
+            this.btnBrowseBase.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBrowseBase.Location = new System.Drawing.Point(326, 383);
+            this.btnBrowseBase.Name = "btnBrowseBase";
+            this.btnBrowseBase.Size = new System.Drawing.Size(31, 23);
+            this.btnBrowseBase.TabIndex = 19;
+            this.btnBrowseBase.Text = "...";
+            this.btnBrowseBase.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(17, 370);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(81, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Base Dump File";
+            // 
+            // txtBaseFile
+            // 
+            this.txtBaseFile.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtBaseFile.Enabled = false;
+            this.txtBaseFile.Location = new System.Drawing.Point(14, 389);
+            this.txtBaseFile.Name = "txtBaseFile";
+            this.textboxProvider1.SetRenderTextbox(this.txtBaseFile, true);
+            this.txtBaseFile.Size = new System.Drawing.Size(306, 13);
+            this.textboxProvider1.SetStyle(this.txtBaseFile, XPControls.Style.Rounded);
+            this.txtBaseFile.TabIndex = 17;
+            // 
             // btnDelete
             // 
             this.btnDelete.Enabled = false;
@@ -196,6 +227,7 @@ namespace SVN_Backup_Widget
             this.chkIncremental.TabIndex = 12;
             this.chkIncremental.Text = "Incremental Dump File";
             this.chkIncremental.UseVisualStyleBackColor = true;
+            this.chkIncremental.CheckedChanged += new System.EventHandler(this.chkIncremental_CheckedChanged);
             // 
             // btnRun
             // 
@@ -361,37 +393,6 @@ namespace SVN_Backup_Widget
             this.lnkFeatures.Text = "      Feature Requests";
             this.lnkFeatures.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lnkFeatures.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFeatures_LinkClicked);
-            // 
-            // btnBrowseBase
-            // 
-            this.btnBrowseBase.Enabled = false;
-            this.btnBrowseBase.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBrowseBase.Location = new System.Drawing.Point(326, 383);
-            this.btnBrowseBase.Name = "btnBrowseBase";
-            this.btnBrowseBase.Size = new System.Drawing.Size(31, 23);
-            this.btnBrowseBase.TabIndex = 19;
-            this.btnBrowseBase.Text = "...";
-            this.btnBrowseBase.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(17, 370);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(81, 13);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "Base Dump File";
-            // 
-            // txtBaseFile
-            // 
-            this.txtBaseFile.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtBaseFile.Enabled = false;
-            this.txtBaseFile.Location = new System.Drawing.Point(14, 389);
-            this.txtBaseFile.Name = "txtBaseFile";
-            this.textboxProvider1.SetRenderTextbox(this.txtBaseFile, true);
-            this.txtBaseFile.Size = new System.Drawing.Size(306, 13);
-            this.textboxProvider1.SetStyle(this.txtBaseFile, XPControls.Style.Rounded);
-            this.txtBaseFile.TabIndex = 17;
             // 
             // frmMain
             // 
