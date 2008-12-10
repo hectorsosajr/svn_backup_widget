@@ -52,9 +52,9 @@ namespace SVN_Backup_Widget
             sb.Append(Environment.NewLine);
             sb.Append("[Incremental] BOOLEAN DEFAULT '0' NULL,");
             sb.Append(Environment.NewLine);
-            sb.Append("[Revisions] VARCHAR(50)  NULL");
+            sb.Append("[Revisions] VARCHAR(50)  NULL,");
             sb.Append(Environment.NewLine);
-            sb.Append("[RootDumpFilePath] VARCHAR(255)  NOT NULL,");
+            sb.Append("[RootDumpFilePath] VARCHAR(255)  NOT NULL");
             sb.Append(Environment.NewLine);
             sb.Append(");");
             sb.Append(Environment.NewLine);

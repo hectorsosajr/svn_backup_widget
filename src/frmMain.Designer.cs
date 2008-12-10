@@ -57,6 +57,9 @@ namespace SVN_Backup_Widget
             this.ttGeneral = new System.Windows.Forms.ToolTip(this.components);
             this.lnkSupport = new System.Windows.Forms.LinkLabel();
             this.lnkFeatures = new System.Windows.Forms.LinkLabel();
+            this.btnBrowseBase = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtBaseFile = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSvrStatus)).BeginInit();
             this.grpProfiles.SuspendLayout();
@@ -108,6 +111,9 @@ namespace SVN_Backup_Widget
             // 
             // grpProfiles
             // 
+            this.grpProfiles.Controls.Add(this.btnBrowseBase);
+            this.grpProfiles.Controls.Add(this.label6);
+            this.grpProfiles.Controls.Add(this.txtBaseFile);
             this.grpProfiles.Controls.Add(this.btnDelete);
             this.grpProfiles.Controls.Add(this.btnNew);
             this.grpProfiles.Controls.Add(this.label5);
@@ -127,7 +133,7 @@ namespace SVN_Backup_Widget
             this.grpProfiles.Controls.Add(this.cboProfiles);
             this.grpProfiles.Location = new System.Drawing.Point(33, 75);
             this.grpProfiles.Name = "grpProfiles";
-            this.grpProfiles.Size = new System.Drawing.Size(363, 423);
+            this.grpProfiles.Size = new System.Drawing.Size(363, 465);
             this.grpProfiles.TabIndex = 4;
             this.grpProfiles.TabStop = false;
             this.grpProfiles.Text = "Profiles";
@@ -286,8 +292,8 @@ namespace SVN_Backup_Widget
             this.textboxProvider1.SetStyle(this.txtFilePattern, XPControls.Style.Rounded);
             this.txtFilePattern.TabIndex = 3;
             this.txtFilePattern.Text = "[REPOSITORYNAME][DATE:yyyyMMdd].svndump";
-            this.txtFilePattern.Leave += new System.EventHandler(this.txtFilePattern_Leave);
             this.txtFilePattern.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
+            this.txtFilePattern.Leave += new System.EventHandler(this.txtFilePattern_Leave);
             // 
             // cboRepos
             // 
@@ -305,7 +311,7 @@ namespace SVN_Backup_Widget
             // btnSave
             // 
             this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(144, 385);
+            this.btnSave.Location = new System.Drawing.Point(132, 426);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 1;
@@ -332,7 +338,7 @@ namespace SVN_Backup_Widget
             this.lnkSupport.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkSupport.Image = ((System.Drawing.Image)(resources.GetObject("lnkSupport.Image")));
             this.lnkSupport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lnkSupport.Location = new System.Drawing.Point(68, 512);
+            this.lnkSupport.Location = new System.Drawing.Point(68, 565);
             this.lnkSupport.Name = "lnkSupport";
             this.lnkSupport.Size = new System.Drawing.Size(82, 17);
             this.lnkSupport.TabIndex = 5;
@@ -347,7 +353,7 @@ namespace SVN_Backup_Widget
             this.lnkFeatures.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lnkFeatures.Image = ((System.Drawing.Image)(resources.GetObject("lnkFeatures.Image")));
             this.lnkFeatures.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lnkFeatures.Location = new System.Drawing.Point(209, 512);
+            this.lnkFeatures.Location = new System.Drawing.Point(209, 565);
             this.lnkFeatures.Name = "lnkFeatures";
             this.lnkFeatures.Size = new System.Drawing.Size(145, 17);
             this.lnkFeatures.TabIndex = 6;
@@ -356,10 +362,41 @@ namespace SVN_Backup_Widget
             this.lnkFeatures.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lnkFeatures.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFeatures_LinkClicked);
             // 
+            // btnBrowseBase
+            // 
+            this.btnBrowseBase.Enabled = false;
+            this.btnBrowseBase.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBrowseBase.Location = new System.Drawing.Point(326, 383);
+            this.btnBrowseBase.Name = "btnBrowseBase";
+            this.btnBrowseBase.Size = new System.Drawing.Size(31, 23);
+            this.btnBrowseBase.TabIndex = 19;
+            this.btnBrowseBase.Text = "...";
+            this.btnBrowseBase.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(17, 370);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(81, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Base Dump File";
+            // 
+            // txtBaseFile
+            // 
+            this.txtBaseFile.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtBaseFile.Enabled = false;
+            this.txtBaseFile.Location = new System.Drawing.Point(14, 389);
+            this.txtBaseFile.Name = "txtBaseFile";
+            this.textboxProvider1.SetRenderTextbox(this.txtBaseFile, true);
+            this.txtBaseFile.Size = new System.Drawing.Size(306, 13);
+            this.textboxProvider1.SetStyle(this.txtBaseFile, XPControls.Style.Rounded);
+            this.txtBaseFile.TabIndex = 17;
+            // 
             // frmMain
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(423, 547);
+            this.ClientSize = new System.Drawing.Size(423, 591);
             this.Controls.Add(this.lnkFeatures);
             this.Controls.Add(this.lnkSupport);
             this.Controls.Add(this.grpProfiles);
@@ -411,5 +448,8 @@ namespace SVN_Backup_Widget
         private System.Windows.Forms.ToolTip ttGeneral;
         private System.Windows.Forms.LinkLabel lnkSupport;
         private System.Windows.Forms.LinkLabel lnkFeatures;
+        private System.Windows.Forms.Button btnBrowseBase;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtBaseFile;
     }
 }
