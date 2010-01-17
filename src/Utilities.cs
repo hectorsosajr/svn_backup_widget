@@ -12,12 +12,9 @@ namespace SVN_Backup_Widget
     {
         public static string ParseFilePattern(string pattern, string repoName)
         {
-            string[] patterns;
-            string datestring;
             string dateCode = string.Empty;
-            string filename;
 
-            patterns = pattern.Split(']');
+            string[] patterns = pattern.Split(']');
 
             for (int i = 0; i < patterns.GetUpperBound(0); i++)
             {
@@ -30,8 +27,8 @@ namespace SVN_Backup_Widget
 
             string[] dateParts = dateCode.Split(':');
             string datePattern = dateParts[1];
-            datestring = DateTime.Now.ToString(datePattern);
-            filename = pattern.Replace(dateCode + "]", datestring);
+            string datestring = DateTime.Now.ToString(datePattern);
+            string filename = pattern.Replace(dateCode + "]", datestring);
 
             filename = filename.Replace("[REPOSITORYNAME]", repoName);
 
@@ -41,7 +38,7 @@ namespace SVN_Backup_Widget
         public static string GetConfigFilePath()
         {
             string configPath = Assembly.GetExecutingAssembly().Location;
-            FileInfo cInfo = new FileInfo(configPath);
+            var cInfo = new FileInfo(configPath);
             configPath = Path.Combine(cInfo.DirectoryName, "svnmanagerlib.ini");
 
             return configPath;
@@ -62,10 +59,10 @@ namespace SVN_Backup_Widget
         public Arguments(IEnumerable<string> Args)
         {
             Parameters = new StringDictionary();
-            Regex Spliter = new Regex(@"^-{1,2}|^/|=|:",
+            var Spliter = new Regex(@"^-{1,2}|^/|=|:",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-            Regex Remover = new Regex(@"^['""]?(.*?)['""]?$",
+            var Remover = new Regex(@"^['""]?(.*?)['""]?$",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             string Parameter = null;
@@ -79,8 +76,7 @@ namespace SVN_Backup_Widget
             {
                 // Look for new parameters (-,/ or --) and a
                 // possible enclosed value (=,:)
-                string[] Parts;
-                Parts = Spliter.Split(Txt, 3);
+                string[] Parts = Spliter.Split(Txt, 3);
 
                 switch (Parts.Length)
                 {

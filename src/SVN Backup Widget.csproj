@@ -91,6 +91,12 @@
     <Compile Include="frmPreferences.designer.cs">
       <DependentUpon>frmPreferences.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProfileGeneratorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProfileGeneratorDialog.Designer.cs">
+      <DependentUpon>ProfileGeneratorDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmMain.resx">
@@ -100,6 +106,9 @@
     <EmbeddedResource Include="frmPreferences.resx">
       <DependentUpon>frmPreferences.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProfileGeneratorDialog.resx">
+      <DependentUpon>ProfileGeneratorDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
