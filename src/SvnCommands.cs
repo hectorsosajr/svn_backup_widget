@@ -36,8 +36,8 @@ namespace SVN_Backup_Widget
 
         private static DumpArgs GetDumpArgsFromProfileName(string profileName)
         {
-            DumpArgs args = new DumpArgs();
-            DAL dal = new DAL();
+            var args = new DumpArgs();
+            var dal = new DAL();
 
             int profileID = dal.GetProfileId(profileName);
 

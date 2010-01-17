@@ -89,11 +89,10 @@ namespace SVN_Backup_Widget
         {
             SQLiteConnection conn = GetDatabaseConnection();
             var cmd = new SQLiteCommand("SELECT * FROM Profiles");
-            SQLiteDataReader dr;
 
             conn.Open();
             cmd.Connection = conn;
-            dr = cmd.ExecuteReader();
+            SQLiteDataReader dr = cmd.ExecuteReader();
 
             while (dr.Read())
             {
@@ -123,11 +122,13 @@ namespace SVN_Backup_Widget
 
             while (dr.Read())
             {
-                det = new ProfileDetails();
-                det.DumpDirectory = dr["DumpDirectory"].ToString();
-                det.Repository = dr["Repository"].ToString();
-                det.FilePattern = dr["FilePattern"].ToString();
-                det.Incremental = Convert.ToBoolean(dr["Incremental"]);
+                det = new ProfileDetails
+                          {
+                              DumpDirectory = dr["DumpDirectory"].ToString(),
+                              Repository = dr["Repository"].ToString(),
+                              FilePattern = dr["FilePattern"].ToString(),
+                              Incremental = Convert.ToBoolean(dr["Incremental"])
+                          };
 
                 try
                 {
@@ -149,7 +150,6 @@ namespace SVN_Backup_Widget
         {
             var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("UPDATE Details ");
             sbSQL.Append("SET Repository = @Repository, ");
@@ -160,8 +160,8 @@ namespace SVN_Backup_Widget
             sbSQL.Append("RootDumpFilePath = @RootDumpFilePath ");
             sbSQL.Append("WHERE ProfileID = @ProfileId");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
-            SQLiteParameter param = new SQLiteParameter("Repository", details.Repository);
+            var cmd = new SQLiteCommand(sbSQL.ToString());
+            var param = new SQLiteParameter("Repository", details.Repository);
             cmd.Parameters.Add(param);
             param = new SQLiteParameter("DumpDirectory", details.DumpDirectory);
             cmd.Parameters.Add(param);
@@ -196,12 +196,11 @@ namespace SVN_Backup_Widget
         {
             var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("DELETE FROM Profiles ");
             sbSQL.Append("WHERE ID = @ProfileId");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
+            var cmd = new SQLiteCommand(sbSQL.ToString());
             var param = new SQLiteParameter("ProfileId", profileId);
             cmd.Parameters.Add(param);
 
@@ -218,12 +217,11 @@ namespace SVN_Backup_Widget
         {
             var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
-            SQLiteCommand cmd;
 
             sbSQL.Append("SELECT ID FROM Profiles ");
             sbSQL.Append("WHERE ProfileName COLLATE nocase = @Name");
 
-            cmd = new SQLiteCommand(sbSQL.ToString());
+            var cmd = new SQLiteCommand(sbSQL.ToString());
             var param = new SQLiteParameter("Name", profileName);
             cmd.Parameters.Add(param);
 
@@ -248,10 +246,12 @@ namespace SVN_Backup_Widget
 
             while (dr.Read())
             {
-                var r = new SubversionRepositoryInfo();
-                r.RepositoryId = Convert.ToInt32(dr["RepoID"]);
-                r.Name = dr["RepoName"].ToString();
-                r.RepositoryPath = dr["RepoPath"].ToString();
+                var r = new SubversionRepositoryInfo
+                            {
+                                RepositoryId = Convert.ToInt32(dr["RepoID"]),
+                                Name = dr["RepoName"].ToString(),
+                                RepositoryPath = dr["RepoPath"].ToString()
+                            };
                 _repositories.Add(r);
             }
 
@@ -307,7 +307,6 @@ namespace SVN_Backup_Widget
 
         public int GetRepositoryId(string RepositoryName)
         {
-            int profileId;
             var sbSQL = new StringBuilder();
             SQLiteConnection conn = GetDatabaseConnection();
 
@@ -321,7 +320,7 @@ namespace SVN_Backup_Widget
             conn.Open();
             cmd.Connection = conn;
             object obj = cmd.ExecuteScalar();
-            profileId = Convert.ToInt32(obj);
+            int profileId = Convert.ToInt32(obj);
 
             conn.Close();
 
@@ -419,32 +418,9 @@ namespace SVN_Backup_Widget
 
     public class Profile
     {
-        private string _name;
-        private int id;
+        public int ID { get; set; }
 
-        public int ID
-        {
-            get
-            {
-                return id;
-            }
-            set
-            {
-                id = value;
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
-        }
+        public string Name { get; set; }
     } 
 
     #endregion
@@ -453,104 +429,21 @@ namespace SVN_Backup_Widget
 
     public class ProfileDetails
     {
-        #region Member Variables
-
-        private string _dumpDirectory;
-        private string _repository;
-        private string _filePattern;
-        private bool _incremental;
-        private string _revisions;
-        private int _profileId;
-        private string _rootDumpFilePath;
-
-        #endregion
-
         #region Properties
 
-        public string Repository
-        {
-            get
-            {
-                return _repository;
-            }
-            set
-            {
-                _repository = value;
-            }
-        }
+        public string Repository { get; set; }
 
-        public string DumpDirectory
-        {
-            get
-            {
-                return _dumpDirectory;
-            }
-            set
-            {
-                _dumpDirectory = value;
-            }
-        }
+        public string DumpDirectory { get; set; }
 
-        public string FilePattern
-        {
-            get
-            {
-                return _filePattern;
-            }
-            set
-            {
-                _filePattern = value;
-            }
-        }
+        public string FilePattern { get; set; }
 
-        public bool Incremental
-        {
-            get
-            {
-                return _incremental;
-            }
-            set
-            {
-                _incremental = value;
-            }
-        }
+        public bool Incremental { get; set; }
 
-        public string Revisions
-        {
-            get
-            {
-                return _revisions;
-            }
-            set
-            {
-                _revisions = value;
-            }
-        }
+        public string Revisions { get; set; }
 
-        public int ProfileID
-        {
-            get
-            {
-                return _profileId;
-            }
-            set
-            {
-                _profileId = value;
-            }
-        }
- 
-        public string RootDumpFilePath
-        {
-            get
-            {
-                return _rootDumpFilePath;
-            }
-            set
-            {
-                _rootDumpFilePath = value;
-            }
+        public int ProfileID { get; set; }
 
-        }
+        public string RootDumpFilePath { get; set; }
 
         #endregion
     }
@@ -565,7 +458,6 @@ namespace SVN_Backup_Widget
 
         private string _name = string.Empty;
         private string _repositoryPath = string.Empty;
-        private int _repoID;
 
         #endregion
 
@@ -583,17 +475,7 @@ namespace SVN_Backup_Widget
             }
         }
 
-        public int RepositoryId
-        {
-            get
-            {
-                return _repoID;
-            }
-            set
-            {
-                _repoID = value;
-            }
-        }
+        public int RepositoryId { get; set; }
 
         public string RepositoryPath
         {

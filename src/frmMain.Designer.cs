@@ -60,6 +60,7 @@ namespace SVN_Backup_Widget
             this.ttGeneral = new System.Windows.Forms.ToolTip(this.components);
             this.lnkSupport = new System.Windows.Forms.LinkLabel();
             this.lnkFeatures = new System.Windows.Forms.LinkLabel();
+            this.btnAutoGenerate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSvrStatus)).BeginInit();
             this.grpProfiles.SuspendLayout();
@@ -394,10 +395,21 @@ namespace SVN_Backup_Widget
             this.lnkFeatures.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lnkFeatures.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFeatures_LinkClicked);
             // 
+            // btnAutoGenerate
+            // 
+            this.btnAutoGenerate.Location = new System.Drawing.Point(236, 21);
+            this.btnAutoGenerate.Name = "btnAutoGenerate";
+            this.btnAutoGenerate.Size = new System.Drawing.Size(143, 23);
+            this.btnAutoGenerate.TabIndex = 7;
+            this.btnAutoGenerate.Text = "Auto Generate Profiles";
+            this.btnAutoGenerate.UseVisualStyleBackColor = true;
+            this.btnAutoGenerate.Click += new System.EventHandler(this.btnAutoGenerate_Click);
+            // 
             // frmMain
             // 
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(423, 591);
+            this.Controls.Add(this.btnAutoGenerate);
             this.Controls.Add(this.lnkFeatures);
             this.Controls.Add(this.lnkSupport);
             this.Controls.Add(this.grpProfiles);
@@ -452,5 +464,6 @@ namespace SVN_Backup_Widget
         private System.Windows.Forms.Button btnBrowseBase;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtBaseFile;
+        private System.Windows.Forms.Button btnAutoGenerate;
     }
 }

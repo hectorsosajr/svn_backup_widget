@@ -18,8 +18,8 @@ namespace SVN_Backup_Widget
         private SVNController _controller;
         private string _filePatterns = string.Empty;
         private Hashtable _profileIndex = new Hashtable();
-        private bool _isNew = false;
-        private bool _isUpdate = false;
+        private bool _isNew;
+        private bool _isUpdate;
         private static string _mode = string.Empty;
 
         #endregion
@@ -49,7 +49,7 @@ namespace SVN_Backup_Widget
 
         private void lnkServer_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            frmPreferences prefs = new frmPreferences();
+            var prefs = new frmPreferences();
             DialogResult result = prefs.ShowDialog();
 
             if (result == DialogResult.OK)
@@ -117,8 +117,8 @@ namespace SVN_Backup_Widget
             }
             else
             {
-                DAL dal = new DAL();
-                int repoIndex = (int)_profileIndex[currItemId];
+                var dal = new DAL();
+                var repoIndex = (int)_profileIndex[currItemId];
                 ProfileDetails d = dal.LoadProfileDetails(repoIndex);
 
                 if (d != null)
@@ -155,7 +155,7 @@ namespace SVN_Backup_Widget
             det.Revisions = txtRevisions.Text;
             det.RootDumpFilePath = txtBaseFile.Text;
 
-            DAL dal = new DAL();
+            var dal = new DAL();
 
             if (_isUpdate)
             {
@@ -171,9 +171,7 @@ namespace SVN_Backup_Widget
 
             if (_isNew)
             {
-                string profileName;
-
-                profileName = cboProfiles.Text;
+                string profileName = cboProfiles.Text;
                 repoName = cboRepos.Text;
 
                 det.Repository = repoName;
@@ -196,11 +194,11 @@ namespace SVN_Backup_Widget
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            string pattern = "[REPOSITORYNAME][DATE:yyyyMMdd].svndump";
+            const string pattern = "[REPOSITORYNAME][DATE:yyyyMMdd].svndump";
 
             if (!ProfileDatabaseExists())
             {
-                DAL dal = new DAL();
+                var dal = new DAL();
                 dal.CreateDatabase();
             }
 
@@ -227,13 +225,11 @@ namespace SVN_Backup_Widget
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            int currId;
-            int idx;
-            DAL dal = new DAL();
+            var dal = new DAL();
 
-            idx = cboProfiles.SelectedIndex;
+            int idx = cboProfiles.SelectedIndex;
 
-            currId = (int)_profileIndex[idx];
+            int currId = (int)_profileIndex[idx];
 
             dal.DeleteProfile(currId);
 
@@ -246,7 +242,7 @@ namespace SVN_Backup_Widget
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-            SvnCommands cmd = new SvnCommands();
+            var cmd = new SvnCommands();
             string profileName;
 
             profileName = cboProfiles.Text;
@@ -437,6 +433,8 @@ namespace SVN_Backup_Widget
 
         #endregion
 
+        #region Control Events
+
         private void lnkSupport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.systemwidgets.com/Support/Forums/tabid/72/view/topics/forumid/2/Default.aspx");
@@ -460,5 +458,14 @@ namespace SVN_Backup_Widget
                 btnBrowseBase.Enabled = false;
             }
         }
+
+        private void btnAutoGenerate_Click(object sender, EventArgs e)
+        {
+            var dialog = new ProfileGeneratorDialog();
+
+            dialog.ShowMe(_controller);
+        } 
+
+        #endregion
     }
 }
